@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 const { addressBR, addressCA, addressDE, addressES, addressIN, addressJP, addressKP, addressKR, addressMX, addressUK, addressUS } = require('./AddressSchemas');
 
 class AddressManager {
@@ -9,7 +9,13 @@ class AddressManager {
     }
 
     async addAddress(address) {
-        const client = new MongoClient(this.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        const client = new MongoClient(this.uri, {
+            serverApi: {
+                version: ServerApiVersion.v1,
+                strict: true,
+                deprecationErrors: true,
+            }
+        });
 
         try {
             await client.connect();
@@ -29,16 +35,14 @@ class AddressManager {
         }
     }
 
+
     async getAddressByCountry(country) {
-        const DB_URI = "mongodb://localhost:27017"
-        const DB_NAME = "local"
-        const COLLECTION_NAME = "Addresses"
-        const client = new MongoClient(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+        const client = new MongoClient(this.uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
         try {
             await client.connect();
-            const database = client.db(DB_NAME);
-            const collection = database.collection(COLLECTION_NAME);
+            const database = client.db(this.dbName);
+            const collection = database.collection(this.collectionName);
 
             // Find addresses based on country
             const addresses = await collection.find({ country: country }).toArray();
@@ -68,15 +72,15 @@ function printAddresses(addresses) {
     }
 }
 
-const DB_URI = "mongodb://localhost:27017"
-const DB_NAME = "local"
-const COLLECTION_NAME = "Addresses"
+const DB_URI = "mongodb+srv://Team9:team9Project@cluster0.o8yccdb.mongodb.net/AddressDatabase?retryWrites=true&w=majority&appName=Cluster0"
+const DB_NAME = "AddressDatabase"
+const COLLECTION_NAME = "AddressCollections"
 
 // Example usage:
 const addressManager = new AddressManager(DB_URI, DB_NAME, COLLECTION_NAME);
 
 // Adding an address from the schema file
-//addressManager.addAddress(addressUS);
+addressManager.addAddress(addressUS);
 
 // Getting addresses by country
 addressManager.getAddressByCountry('Brazil')
@@ -100,3 +104,35 @@ addressManager.getAddressByCountry('USA')
         // Handle errors here
         console.error('Error:', error);
     });
+
+    /*
+
+    
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://Team9:<password>@cluster0.o8yccdb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
+
+*/
