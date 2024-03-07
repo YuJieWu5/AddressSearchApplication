@@ -5,15 +5,29 @@ const mongoose = require('mongoose');
 const defaultAddressSchema = new mongoose.Schema({
     buildingNumber: {Int32Array, "minimum": 0},
     streetInfo: String,
+    city: String,
+    statePrefectureProvidence: String,
     country: String,
     zipcode: String,
+});
 
-    // Other fields and their types???
+const allCountriesSchema = new mongoose.Schema({
+    buildingNumber: {Int32Array, "minimum": 0},
+    streetInfo: String,
+    buildingInstitutionName: String,
+    city: String,
+    statePrefectureProvidence: String,
+    neighborhoodSubdivision: String,
+    country: String,
+    zipcode: String,
 });
+
 const nameSchema = new mongoose.Schema({
-    firstname: {String, "required": true},
-    lastname: {String, "required": false}
+    firstname: String,
+    lastname: String
 });
+
+
 
 const searchModel = mongoose.model('searchModel', defaultAddressSchema);
 
