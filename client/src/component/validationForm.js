@@ -2,6 +2,7 @@ import {useState} from 'react';
 import '../App.css';
 import ValidationFormCanada from './validationFormCanada';
 import ValidationFormBrazil from './validationFormBrazil';
+import ValidationFormGermany from './validationFormGermany';
 
 const ValidationForm = ()=> {
     const countries = {
@@ -48,6 +49,8 @@ const ValidationForm = ()=> {
             {selectedCountry === "0" && (<ValidationFormBrazil/>)}
 
             {selectedCountry === "1" && (<ValidationFormCanada/>)}
+
+            {selectedCountry === "2" && (<ValidationFormGermany/>)}
 
             {/* <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-3">
