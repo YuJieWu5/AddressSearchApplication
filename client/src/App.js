@@ -8,7 +8,7 @@ import ValidatingBrazilForm from './component/validationFormBrazil';
 function App() {
   return (
     <>
-      <ValidatingBrazilForm/>
+      <ValidationForm/>
       {/* <SearchingForm/> */}
     </>
 
