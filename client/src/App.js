@@ -1,15 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
-import { Button } from 'react-bootstrap';
+import { useState } from 'react';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import ValidationForm from './component/validationForm';
 import SearchingForm from './assets/searhingForm';
 import ValidatingBrazilForm from './component/validationFormBrazil';
 
 function App() {
+  
   return (
     <>
-      <ValidationForm/>
-      {/* <SearchingForm/> */}
+      <Tabs
+        defaultActiveKey="validation"
+        id="uncontrolled-tab-example"
+        className="mb-3"
+      >
+        <Tab eventKey="searching" title="Searching Form">
+          <SearchingForm/>
+        </Tab>
+        <Tab eventKey="validation" title="Validation Form">
+          <ValidationForm/>
+        </Tab>
+      </Tabs>
+      
     </>
 
   );
