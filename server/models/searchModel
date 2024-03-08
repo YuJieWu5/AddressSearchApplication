@@ -1,9 +1,0 @@
-// Define a Mongoose model for CountryFormats
-const mongoose = require('mongoose');
-const SearchModelSchema = new mongoose.Schema({
-    countryName: String,
-    countryCode: String,
-    format: String
-});
-
-module.exports = mongoose.model('searchModel', SearchModelSchema);
