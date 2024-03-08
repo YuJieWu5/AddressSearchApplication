@@ -1,18 +1,31 @@
-const CountryFormat = require('../models/searchModel');
+const FormatModel = require('../models/FormatModel');
+
+// Function for retrieving address formats for countries selected
+async function getAddressFormats(selectedCountries){
+    try{
+        const addressFormats = await FormatModel.find({ countryCode: { $in: selectedCountries } });
+        return addressFormats;
+    } catch(error){
+        console.error('Error retrieving country address formats:', error);
+        throw error;
+    }
+}
+
+
 
 // Function to perform address search
 exports.performSearch = async (selectedCountries, userInput) => {
     try {
         // Fetch address formats for the selected countries from the database
-        const addressFormats = await searchModel.find({ countryCode: { $in: selectedCountries } });
+        const addressFormats = await FormatModel.find({ countryCode: { $in: selectedCountries } });
 
         // Construct MongoDB query based on user input and address formats
         const queryConditions = {};
 
         // Loop through address formats for selected countries
-        addressFormats.forEach(searchModel => {
+        addressFormats.forEach(FormatModel => {
             // Extract placeholders from the format
-            const placeholders = searchModel.format.match(/\{(.*?)\}/g);
+            const placeholders = FormatModel.format.match(/\{(.*?)\}/g);
 
             // For each placeholder, check if user input exists and add to the query conditions
             placeholders.forEach(placeholder => {
