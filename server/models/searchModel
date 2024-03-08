@@ -1,34 +1,9 @@
-// models/searchModel.js
-
+// Define a Mongoose model for CountryFormats
 const mongoose = require('mongoose');
-
-const defaultAddressSchema = new mongoose.Schema({
-    buildingNumber: {Int32Array, "minimum": 0},
-    streetInfo: String,
-    city: String,
-    statePrefectureProvidence: String,
-    country: String,
-    zipcode: String,
+const SearchModelSchema = new mongoose.Schema({
+    countryName: String,
+    countryCode: String,
+    format: String
 });
 
-const allCountriesSchema = new mongoose.Schema({
-    buildingNumber: {Int32Array, "minimum": 0},
-    streetInfo: String,
-    buildingInstitutionName: String,
-    city: String,
-    statePrefectureProvidence: String,
-    neighborhoodSubdivision: String,
-    country: String,
-    zipcode: String,
-});
-
-const nameSchema = new mongoose.Schema({
-    firstname: String,
-    lastname: String
-});
-
-
-
-const searchModel = mongoose.model('searchModel', defaultAddressSchema);
-
-module.exports = searchModel;
+module.exports = mongoose.model('searchModel', SearchModelSchema);
