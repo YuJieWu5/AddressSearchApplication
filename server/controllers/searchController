@@ -1,18 +1,16 @@
-// controllers/searchController.js
+searchService = require('../services/searchService');
 
-const mongoose = require('mongoose');
-const addressDatabase = require('../models/searchModel');
-
-const search = async (req, res) => {
-    const { query } = req.query;
-
+// Handle search requests
+exports.search = async (req, res) => {
     try {
-        const results = await addressDatabase.find({ $text: { $search: query } });
-        res.json(results);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Internal server error' });
+        const selectedCountries = req.query.selectedCountries;
+
+        // Call the search service to perform the search
+        const searchResults = await searchService.performSearch(selectedCountries, req.query);
+
+        res.json(searchResults);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 };
-
-module.exports = { search };
