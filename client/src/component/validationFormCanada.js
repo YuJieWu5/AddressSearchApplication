@@ -103,7 +103,7 @@ const ValidationFormCanada = () => {
     const country = "1";
     const city = document.getElementById("city").value;
     const province = document.getElementById("province").value;
-    const postalCode = firstPostalCode + "-" + lastPostalCode;
+    const postalCode = firstPostalCode + " " + lastPostalCode;
     const apt = document.getElementById("apt-num").value;
     const houseNum = document.getElementById("room-num").value;
     const streetType = document.getElementById("street-type").value;
