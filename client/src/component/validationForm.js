@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import '../App.css';
-import './validationFormBrazil';
+import ValidationFormCanada from './validationFormCanada';
 import ValidationFormBrazil from './validationFormBrazil';
 
 const ValidationForm = ()=> {
@@ -16,7 +16,7 @@ const ValidationForm = ()=> {
         "8":"Spain", 
         "9":"United Kingdom", 
         "10":"USA"};
-    const [selectedCountry, setCountry] = useState(0);
+    const [selectedCountry, setCountry] = useState("0");
 
     const handleCountryChange = (e) =>{
         const index = e.target.value
@@ -26,8 +26,8 @@ const ValidationForm = ()=> {
 
     return (
         <>
-        <form className='ml-3 mr-3'>
-        <div class="space-y-12">
+        <form>
+        <div class="space-y-12 ml-3 mr-3">
             
 
             <div class="border-b border-gray-900/10 pb-12">
@@ -45,58 +45,54 @@ const ValidationForm = ()=> {
                     </div>
             </div>
 
-            {
-                selectedCountry == 0?(
-                    <ValidationFormBrazil/>
-                ):(
-                    <>
-                        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                            <div class="sm:col-span-3">
-                            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
-                            <div class="mt-2">
-                                <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                            </div>
-                            </div>
+            {selectedCountry === "0" && (<ValidationFormBrazil/>)}
 
-                            <div class="sm:col-span-3">
-                            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
-                            <div class="mt-2">
-                                <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                            </div>
-                            </div>
+            {selectedCountry === "1" && (<ValidationFormCanada/>)}
+
+            {/* <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-3">
+                <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
+                <div class="mt-2">
+                    <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                </div>
+                </div>
+
+                <div class="sm:col-span-3">
+                <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
+                <div class="mt-2">
+                    <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                </div>
+                </div>
 
 
-                            <div class="sm:col-span-2 sm:col-start-1">
-                            <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
-                            <div class="mt-2">
-                                <input type="text" name="city" id="city" autocomplete="address-level2" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                            </div>
-                            </div>
+                <div class="sm:col-span-2 sm:col-start-1">
+                <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
+                <div class="mt-2">
+                    <input type="text" name="city" id="city" autocomplete="address-level2" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                </div>
+                </div>
 
-                            <div class="sm:col-span-2">
-                            <label for="region" class="block text-sm font-medium leading-6 text-gray-900">State / Province</label>
-                            <div class="mt-2">
-                                <input type="text" name="region" id="region" autocomplete="address-level1" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                            </div>
-                            </div>
+                <div class="sm:col-span-2">
+                <label for="region" class="block text-sm font-medium leading-6 text-gray-900">State / Province</label>
+                <div class="mt-2">
+                    <input type="text" name="region" id="region" autocomplete="address-level1" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                </div>
+                </div>
 
-                            <div class="sm:col-span-2">
-                            <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">ZIP / Postal code</label>
-                            <div class="mt-2">
-                                <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                            </div>
-                            </div>
+                <div class="sm:col-span-2">
+                <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">ZIP / Postal code</label>
+                <div class="mt-2">
+                    <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                </div>
+                </div>
 
-                            <div class="col-span-full">
-                            <label for="address" class="block text-sm font-medium leading-6 text-gray-900">Street address</label>
-                            <div class="mt-2">
-                                <textarea id="street-address" name="street-address" rows="4" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
-                            </div>
-                            </div>
-                        </div>
-                    </>
-                )
-            }
+                <div class="col-span-full">
+                <label for="address" class="block text-sm font-medium leading-6 text-gray-900">Street address</label>
+                <div class="mt-2">
+                    <textarea id="street-address" name="street-address" rows="4" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+                </div>
+                </div>
+            </div> */}
 
             
             </div>

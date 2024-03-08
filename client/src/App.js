@@ -1,11 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import ValidationForm from './component/validationForm';
 import SearchingForm from './assets/searhingForm';
-import ValidatingBrazilForm from './component/validationFormBrazil';
 
 function App() {
   
