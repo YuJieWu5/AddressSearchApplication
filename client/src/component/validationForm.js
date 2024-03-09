@@ -12,6 +12,8 @@ import ValidationFormSpain from './validationFormSpain';
 import ValidationFormUK from './validationFormUK';
 import ValidationFormUSA from './validationFormUSA';
 
+import Dialog from './dialog';
+
 
 const ValidationForm = ()=> {
     const countries = {

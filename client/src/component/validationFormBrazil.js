@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 import React from 'react';
+import Dialog from "./dialog";
 
 const ValidationFormBrazil = () => {
   const state = [
@@ -47,6 +48,8 @@ const ValidationFormBrazil = () => {
   const [neighborhood, setNeighborhood] = useState('');
   const [selectedStreetType, setStreetType] = useState(streetType[0]);
   const [streetAddress, setStreetAddress] = useState('');
+  const [dialogProps, setDialogProps] = useState({ isOpen: false, status: null, msg: "" });
+
 
   const handleFirstNameChange = (event) =>{
     const { value } = event.target;
@@ -63,17 +66,14 @@ const ValidationFormBrazil = () => {
   }
 
   const handleSuffixChange = (event) =>{
-    console.log(event.target.value);
     setSuffix(event.target.value);
   }
 
   const handleCityChange = (event) =>{
-    console.log(event.target.value);
     setCity(event.target.value);
   }
 
   const handleStateChange = (event) =>{
-    console.log(event.target.value);
     setState(event.target.value);
   }
 
@@ -113,13 +113,11 @@ const ValidationFormBrazil = () => {
 
   const handleStreetType = (event) =>{
     const { value } = event.target;
-    console.log(value);
     setStreetType(value);
   }
 
   const handleStreetChange = (event) =>{
     const { value } = event.target;
-    console.log(value);
     setStreetAddress(value);
   }
 
@@ -150,7 +148,8 @@ const ValidationFormBrazil = () => {
       if (response.status === 200) {
         // Address is valid, set notification and show popup
         // setNotification(response.data.message);
-        window.alert(response.data.message);
+        // window.alert(response.data.message);
+        setDialogProps({ isOpen: true, status: response.status, msg: response.data.message });
       } else {
         // Address is invalid, set error notification
         // setNotification("Invalid address format.");
@@ -159,6 +158,7 @@ const ValidationFormBrazil = () => {
       }
     } catch (error) {
       // Handle error
+      setDialogProps({ isOpen: true, status: 400, msg: "Invalid Address" });
       console.error("Error:", error);
     }
   };
@@ -413,6 +413,7 @@ const ValidationFormBrazil = () => {
           </button>
         </div>
       </form>
+      {dialogProps.isOpen && <Dialog status={dialogProps.status} msg={dialogProps.msg} />}
     </>
   );
 };
