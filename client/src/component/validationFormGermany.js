@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import axios from 'axios';
 
 const ValidationFormGermany = () =>{
     const suffix = ["Sr.", "Jr.", ""];
@@ -68,43 +69,38 @@ const ValidationFormGermany = () =>{
   
     const handleSubmit = async (event) => {
       event.preventDefault(); // Prevent default form submission behavior
-  
-      // Access form elements using getElementById
-      const firstName = document.getElementById("first-name").value;
-      const lastName = document.getElementById("last-name").value;
-      const suffix = document.getElementById("sufix").value;
-      const country = "2"; //Germany
-      const city = document.getElementById("city").value;
-      const postalCode = firstPostalCode;
-      const apt = document.getElementById("apt-num").value;
-      const houseNum = document.getElementById("room-num").value;
-      const streetAddress = document.getElementById("street-address").value;
-  
-  
+
       const formData = {
+          countryID : 2,
           firstName,
           lastName,
-          suffix,
-          country,
+          selectedSuffix,
           city,
-          postalCode,
-          apt,
-          houseNum,
-          streetAddress
+          aptNum,
+          roomNum,
+          streetAddress,
+          firstPostalCode
       };
   
       console.log(formData);
   
-      // try {
-      //   // Make a POST request to your server API endpoint
-      //   const response = await axios.post("http://localhost:5000/api/validateAddress", formData);
+      try {
+        // Make a POST request to your server API endpoint
+        const response = await axios.post("http://localhost:5000/api/validateAddress", formData);
   
-      //   // Handle response if needed
-      //   console.log(response.data);
-      // } catch (error) {
-      //   // Handle error
-      //   console.error("Error:", error);
-      // }
+        // Handle response
+      if (response.status === 200) {
+        // Address is valid, set notification and show popup
+        // setNotification(response.data.message);
+        window.alert(response.data.message);
+      } else {
+        // Address is invalid, set error notification
+        // setNotification("Invalid address format.");
+      }
+      } catch (error) {
+        // Handle error
+        console.error("Error:", error);
+      }
     };
   
     return (
