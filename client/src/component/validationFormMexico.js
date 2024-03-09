@@ -90,7 +90,7 @@ const ValidationFormMexico = () =>{
       const firstName = document.getElementById("first-name").value;
       const lastName = document.getElementById("last-name").value;
       const suffix = document.getElementById("sufix").value;
-      const country = "1";
+      const country = "7"; //Mexico
       const city = document.getElementById("city").value;
       const province = document.getElementById("province").value;
       const postalCode = firstPostalCode;

@@ -73,7 +73,7 @@ const ValidationFormIndia = () =>{
       const firstName = document.getElementById("first-name").value;
       const lastName = document.getElementById("last-name").value;
       const suffix = document.getElementById("sufix").value;
-      const country = "2"; //Germany
+      const country = "3"; //India
       const city = document.getElementById("city").value;
       const postalCode = firstPostalCode;
       const apt = document.getElementById("apt-num").value;

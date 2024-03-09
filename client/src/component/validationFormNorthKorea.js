@@ -72,7 +72,7 @@ const ValidationFormNorthKorea = () =>{
       // Access form elements using getElementById
       const firstName = document.getElementById("first-name").value;
       const lastName = document.getElementById("last-name").value;
-      const country = "1";
+      const country = "5"; //North Korea
       const city = document.getElementById("city").value;
       const province = document.getElementById("province").value;
       const apt = document.getElementById("apt-num").value;
