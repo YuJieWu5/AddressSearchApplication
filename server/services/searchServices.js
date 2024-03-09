@@ -1,59 +1,34 @@
-const FormatModel = require('../models/FormatModel');
 const DefaultSearchModel = require('../models/DefaultSearchModel');
 
-// Function for retrieving address formats for countries selected
-async function getAddressFormats(selectedCountries) {
-    try {
-        const addressFormats = await FormatModel.find({ countryCode: { $in: selectedCountries } });
-        return addressFormats;
-    } catch (error) {
-        console.error('Error retrieving country address formats:', error);
-        throw error;
-    }
-}
 
 exports.performSearch = async (selectedCountries, userInput) => {
     try {
         let searchResults;
 
-        if (selectedCountries && selectedCountries.length > 0) {
-            // Fetch address formats for the selected countries from the database
-            const addressFormats = await getAddressFormats(selectedCountries);
+        const queryConditions = {};
 
-            // Construct MongoDB query based on user input and address formats
-            const queryConditions = {};
-
-            // Loop through address formats for selected countries
-            addressFormats.forEach(format => {
-                // Extract placeholders from the format
-                const placeholders = format.format.match(/\{(.*?)\}/g);
-
-                // For each placeholder, check if user input exists and add to the query conditions
-                placeholders.forEach(placeholder => {
-                    const field = placeholder.replace(/[{}]/g, ''); // Remove curly braces from MongoDB storage
-                    if (userInput[field]) {
-                        // Treat street address, city, province, and postal code as partial matches
-                        if (field === 'street_address' || field === 'city' || field === 'state_province' || field === 'postal_code') {
-                            queryConditions[field] = { $regex: new RegExp(userInput[field], 'i') };
-                        } else {
-                            // For name fields, use exact matching
-                            queryConditions[field] = userInput[field];
-                        }
-                    }
-                });
-            });
-
-            // Execute MongoDB query using DefaultSearchModel
-            searchResults = await DefaultSearchModel.find(queryConditions);
-        } else {
-            // For default search, treat name fields as exact matches
-            const defaultSearchConditions = {
-                'name.first_name': userInput.first_name,
-                'name.last_name': userInput.last_name,
-            };
-
-            searchResults = await DefaultSearchModel.find(defaultSearchConditions);
+        // Construct MongoDB query based on user input
+        if (userInput.first_name) {
+            queryConditions['name.first_name'] = userInput.first_name;
         }
+        if (userInput.last_name) {
+            queryConditions['name.last_name'] = userInput.last_name;
+        }
+        if (userInput.street_address) {
+            queryConditions['street_address'] = { $regex: new RegExp(userInput.street_address, 'i') };
+        }
+        if (userInput.city) {
+            queryConditions['zone_info.city'] = { $regex: new RegExp(userInput.city, 'i') };
+        }
+        if (userInput.state_province) {
+            queryConditions['zone_info.state_province'] =  { $regex: new RegExp(userInput.state_province, 'i') };
+        }
+        if (userInput.postal_code) {
+            queryConditions['zone_info.postal_code'] =  { $regex: new RegExp(userInput.postal_code, 'i') };
+        }
+
+        // Execute MongoDB query using DefaultSearchModel
+        searchResults = await DefaultSearchModel.find(queryConditions);
 
         // Return search results
         return searchResults;
