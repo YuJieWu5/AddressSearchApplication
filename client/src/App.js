@@ -2,14 +2,14 @@ import './App.css';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import ValidationForm from './component/validationForm';
-import SearchingForm from './assets/searhingForm';
+import SearchingForm from './component/searhingForm';
 
 function App() {
   
   return (
     <>
       <Tabs
-        defaultActiveKey="validation"
+        defaultActiveKey="searching"
         id="uncontrolled-tab-example"
         className="mb-3"
       >
