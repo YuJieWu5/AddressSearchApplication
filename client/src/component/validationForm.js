@@ -6,6 +6,7 @@ import ValidationFormGermany from './validationFormGermany';
 import ValidationFormIndia from './validationFormIndia';
 import ValidationFormJapan from './validationFormJapan';
 import ValidationFormNorthKorea from './validationFormNorthKorea';
+import ValidationFormSouthKorea from './validationFormSouthKorea';
 
 const ValidationForm = ()=> {
     const countries = {
@@ -42,6 +43,8 @@ const ValidationForm = ()=> {
                 return <ValidationFormJapan/>;
             case "5":
                 return <ValidationFormNorthKorea/>;
+            case "6":
+                return <ValidationFormSouthKorea/>;
           default:
             return <ValidationFormBrazil />; // or any default component or behavior
         }
