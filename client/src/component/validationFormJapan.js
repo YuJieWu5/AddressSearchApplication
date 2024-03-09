@@ -94,7 +94,6 @@ const ValidationFormJapan = () =>{
       const postalCode = firstPostalCode + "-" + lastPostalCode;
       const apt = document.getElementById("apt-num").value;
       const houseNum = document.getElementById("room-num").value;
-      const streetType = document.getElementById("street-type").value;
       const streetAddress = document.getElementById("street-address").value;
   
   
@@ -108,7 +107,6 @@ const ValidationFormJapan = () =>{
           postalCode,
           apt,
           houseNum,
-          streetType,
           streetAddress
       };
   
