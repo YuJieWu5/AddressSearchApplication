@@ -105,6 +105,8 @@ addressManager.getAddressByCountry('USA')
         console.error('Error:', error);
     });
 
+    module.exports = AddressManager;
+
     /*
 
     
