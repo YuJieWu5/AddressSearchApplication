@@ -1,5 +1,4 @@
 const FormatModel = require('../models/FormatModel');
-const DefaultSearch = require('../models/DefaultSearchModel');
 const DefaultSearchModel = require('../models/DefaultSearchModel');
 
 // Function for retrieving address formats for countries selected
@@ -13,9 +12,6 @@ async function getAddressFormats(selectedCountries) {
     }
 }
 
-
-
-// Function to perform address search
 exports.performSearch = async (selectedCountries, userInput) => {
     try {
         let searchResults;
@@ -28,23 +24,35 @@ exports.performSearch = async (selectedCountries, userInput) => {
             const queryConditions = {};
 
             // Loop through address formats for selected countries
-            addressFormats.forEach(FormatModel => {
+            addressFormats.forEach(format => {
                 // Extract placeholders from the format
-                const placeholders = FormatModel.format.match(/\{(.*?)\}/g);
+                const placeholders = format.format.match(/\{(.*?)\}/g);
 
                 // For each placeholder, check if user input exists and add to the query conditions
                 placeholders.forEach(placeholder => {
                     const field = placeholder.replace(/[{}]/g, ''); // Remove curly braces from MongoDB storage
                     if (userInput[field]) {
-                        queryConditions[field] = userInput[field];
+                        // Treat street address, city, province, and postal code as partial matches
+                        if (field === 'street_address' || field === 'city' || field === 'state_province' || field === 'postal_code') {
+                            queryConditions[field] = { $regex: new RegExp(userInput[field], 'i') };
+                        } else {
+                            // For name fields, use exact matching
+                            queryConditions[field] = userInput[field];
+                        }
                     }
                 });
             });
 
-            // Execute MongoDB query
-            searchResults = await searchModel.find(queryConditions);
+            // Execute MongoDB query using DefaultSearchModel
+            searchResults = await DefaultSearchModel.find(queryConditions);
         } else {
-            searchResults = await DefaultSearchModel.find(userInput);
+            // For default search, treat name fields as exact matches
+            const defaultSearchConditions = {
+                'name.first_name': userInput.first_name,
+                'name.last_name': userInput.last_name,
+            };
+
+            searchResults = await DefaultSearchModel.find(defaultSearchConditions);
         }
 
         // Return search results
