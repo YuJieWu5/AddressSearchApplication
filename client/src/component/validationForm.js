@@ -5,6 +5,7 @@ import ValidationFormBrazil from './validationFormBrazil';
 import ValidationFormGermany from './validationFormGermany';
 import ValidationFormIndia from './validationFormIndia';
 import ValidationFormJapan from './validationFormJapan';
+import ValidationFormNorthKorea from './validationFormNorthKorea';
 
 const ValidationForm = ()=> {
     const countries = {
@@ -29,16 +30,18 @@ const ValidationForm = ()=> {
 
     const renderForm = (selectedCountry) => {
         switch (selectedCountry) {
-          case "0":
-            return <ValidationFormBrazil />;
-          case "1":
-            return <ValidationFormCanada />;
-          case "2":
-            return <ValidationFormGermany />;
-          case "3":
-            return <ValidationFormIndia />;
-          case "4":
+            case "0":
+                return <ValidationFormBrazil />;
+            case "1":
+                return <ValidationFormCanada />;
+            case "2":
+                return <ValidationFormGermany />;
+            case "3":
+                return <ValidationFormIndia />;
+            case "4":
                 return <ValidationFormJapan/>;
+            case "5":
+                return <ValidationFormNorthKorea/>;
           default:
             return <ValidationFormBrazil />; // or any default component or behavior
         }
