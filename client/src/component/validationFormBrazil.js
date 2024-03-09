@@ -33,7 +33,7 @@ const ValidationFormBrazil = () => {
     "TO",
   ];
   const suffix = ["Sr.", "Jr.", "Filho", "Neto", ""];
-  const type = ["Rua", "Avenida", "Travessa", "Alameda", "Praça", "Largo"];
+  const streetType = ["Rua", "Avenida", "Travessa", "Alameda", "Praça", "Largo"];
 
   const [firstPostalCode, setFirstPostalCode] = useState();
   const [lastPostalCode, setLastPostalCode] = useState();
@@ -45,6 +45,7 @@ const ValidationFormBrazil = () => {
   const [aptNum, setAptNum] = useState();
   const [roomNum, setRoomNum] = useState();
   const [neighborhood, setNeighborhood] = useState();
+  const [selectedStreetType, setStreetType] = useState(streetType[0]);
   const [streetAddress, setStreetAddress] = useState();
 
   const handleFirstNameChange = (event) =>{
@@ -110,6 +111,12 @@ const ValidationFormBrazil = () => {
     setNeighborhood(value);
   }
 
+  const handleStreetType = (event) =>{
+    const { value } = event.target;
+    console.log(value);
+    setStreetType(value);
+  }
+
   const handleStreetChange = (event) =>{
     const { value } = event.target;
     console.log(value);
@@ -130,6 +137,7 @@ const ValidationFormBrazil = () => {
     const apto = document.getElementById("apt-num").value;
     const sala = document.getElementById("room-num").value;
     const barrio = document.getElementById("neighborhood-name").value;
+    const streetType = document.getElementById("street-type").value;
     const streetAddress = document.getElementById("street-address").value;
 
 
@@ -144,6 +152,7 @@ const ValidationFormBrazil = () => {
         apto,
         sala,
         barrio,
+        streetType,
         streetAddress
     };
 
@@ -275,70 +284,41 @@ const ValidationFormBrazil = () => {
                 <label
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  ZIP / Postal code
+                  Apto
                 </label>
                 <div className="mt-2">
-                  <div className="row">
-                    <input
-                      type="tel"
-                      value={firstPostalCode}
-                      onChange={handleFirstPostalCodeChange}
-                      pattern="\d{5}"
-                      placeholder="12345"
-                      className="block w-20 mr-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                    -
-                    <input
-                      type="tel"
-                      value={lastPostalCode}
-                      onChange={handleLastPostalCodeChange}
-                      pattern="\d{3}"
-                      placeholder="678"
-                      className="block ml-3 w-10 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-4">
-                  <label
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Apto
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      name="apt-num"
-                      id="apt-num"
-                      autoComplete="address-level2"
-                      value={aptNum}
-                      onChange={handleAptoChange}
-                      className="block w-20 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4 ml-3">
-                  <label
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Sala
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      name="room-num"
-                      id="room-num"
-                      autoComplete="address-level2"
-                      value={roomNum}
-                      onChange={handleSalaChange}
-                      className="block w-20 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    name="apt-num"
+                    id="apt-num"
+                    autoComplete="address-level2"
+                    value={aptNum}
+                    onChange={handleAptoChange}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
                 </div>
               </div>
 
-              <div className="col-md-4 ml-3">
+              <div className="sm:col-span-2">
+                <label
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Sala
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="room-num"
+                    id="room-num"
+                    autoComplete="address-level2"
+                    value={roomNum}
+                    onChange={handleSalaChange}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-2">
                 <label
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
@@ -352,10 +332,61 @@ const ValidationFormBrazil = () => {
                     autoComplete="address-level2"
                     value={neighborhood}
                     onChange={handleBairroChange}
-                    className="block w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
+
+              <div className="sm:col-span-2">
+                <label
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  ZIP / Postal code
+                </label>
+                <div className="mt-2">
+                  <div className="row ml-2">
+                    <input
+                      type="tel"
+                      value={firstPostalCode}
+                      onChange={handleFirstPostalCodeChange}
+                      pattern="\d{5}"
+                      placeholder="12345"
+                      className="block w-20 mr-3 pl-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                    -
+                    <input
+                      type="tel"
+                      value={lastPostalCode}
+                      onChange={handleLastPostalCodeChange}
+                      pattern="\d{3}"
+                      placeholder="678"
+                      className="block ml-3 w-10  pl-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+              </div>
+            
+              <div className="sm:col-span-2">
+                  <label
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Street Type
+                  </label>
+                  <div className="mt-2">
+                    <select
+                      id="street-type"
+                      name="street-type"
+                      autoComplete="street-type"
+                      value={selectedStreetType}
+                      onChange={handleStreetType}
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                    >
+                      {streetType.map((item) => {
+                        return <option key={item} value={item}>{item}</option>;
+                      })}
+                    </select>
+                  </div>
+                </div>
 
               <div className="col-span-full">
                 <label
