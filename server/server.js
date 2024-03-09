@@ -1,6 +1,6 @@
-const axios = require('axios');
+const axios = require("axios");
 
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 
 const express = require("express");
 
@@ -8,9 +8,9 @@ const app = express();
 
 const cors = require("cors");
 
-const Ajv = require('ajv');
+const Ajv = require("ajv");
 
-require('dotenv').config();
+require("dotenv").config();
 
 require("dotenv").config({ path: "./config.env" });
 const port = process.env.PORT || 5000;
@@ -98,10 +98,11 @@ app.post("/api/validateAddress", (req, res) => {
 
   const isValid = validate(data);
   if (isValid) {
-    console.log('Data is valid');
+    console.log("Data is valid");
     res.status(200).send({ message: "Address is valid" });
   } else {
-    console.log('Data is not valid');
+    console.log("Data is not valid");
+    console.log(validate.errors);
     res.status(400).send({ message: "Invalid address format." });
   }
 });

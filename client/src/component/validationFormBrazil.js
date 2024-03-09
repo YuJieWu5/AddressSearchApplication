@@ -154,6 +154,8 @@ const ValidationFormBrazil = () => {
       } else {
         // Address is invalid, set error notification
         // setNotification("Invalid address format.");
+        window.alert(response.data.message);
+
       }
     } catch (error) {
       // Handle error
