@@ -1,5 +1,7 @@
 const DefaultSearchModel = require('../models/DefaultSearchModel');
 
+const pageSize = 25;
+
 
 exports.performSearch = async (selectedCountries, userInput) => {
     try {
@@ -21,18 +23,29 @@ exports.performSearch = async (selectedCountries, userInput) => {
             queryConditions['zone_info.city'] = { $regex: new RegExp(userInput.city, 'i') };
         }
         if (userInput.state_province) {
-            queryConditions['zone_info.state_province'] =  { $regex: new RegExp(userInput.state_province, 'i') };
+            queryConditions['zone_info.state_province'] = { $regex: new RegExp(userInput.state_province, 'i') };
         }
         if (userInput.postal_code) {
-            queryConditions['zone_info.postal_code'] =  { $regex: new RegExp(userInput.postal_code, 'i') };
+            queryConditions['zone_info.postal_code'] = { $regex: new RegExp(userInput.postal_code, 'i') };
         }
 
         // Execute MongoDB query using DefaultSearchModel
-        searchResults = await DefaultSearchModel.find(queryConditions);
+        const totalCount = await DefaultSearchModel.countDocuments(queryConditions);
+        const totalPages = Math.ceil(totalCount / pageSize);
+        const skip = (page - 1) * pageSize;
 
-        // Return search results
-        return searchResults;
-        
+        searchResults = await DefaultSearchModel.find(queryConditions)
+            .skip(skip)
+            .limit(pageSize);
+
+        return {
+            results: searchResults,
+            pagination: {
+                totalResults: totalCount,
+                totalPages: totalPages,
+                currentPage: page
+            }
+        };
     } catch (error) {
         throw new Error('Error performing search: ' + error.message);
     }
