@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 import React from 'react';
+import Dialog from "./dialog";
 
 const ValidationFormMexico = () =>{
     const province = ["AG" , "BC" , "BS" , "CM" , "CS" , "CH" , "CL" , "CP" , "DG" , "DF" , "GT" , "GR" , "HG" , "JC" , "MC" , "MN" , "MS" , "NT" , "NL" , "OC" , "PL" , "QT" , "QR" , "SP" , "SL" , "SR" , "TC" , "TS" , "TL" , "VZ" , "YN" , "ZS"];
@@ -17,6 +18,7 @@ const ValidationFormMexico = () =>{
     const [roomNum, setRoomNum] = useState();
     const [selectedStreetType, setStreetType] = useState(streetType[0]);
     const [streetAddress, setStreetAddress] = useState();
+    const [dialogProps, setDialogProps] = useState({ isOpen: false, status: null, msg: "" });
   
     const handleFirstNameChange = (event) =>{
       const { value } = event.target;
@@ -108,16 +110,15 @@ const ValidationFormMexico = () =>{
         const response = await axios.post("http://localhost:5000/api/validateAddress", formData);
   
         // Handle response
-      if (response.status === 200) {
-        // Address is valid, set notification and show popup
-        // setNotification(response.data.message);
-        window.alert(response.data.message);
-      } else {
-        // Address is invalid, set error notification
-        // setNotification("Invalid address format.");
-      }
+        if (response.status === 200) {
+          // Address is valid, set notification and show popup
+          // setNotification(response.data.message);
+          // window.alert(response.data.message);
+          setDialogProps({ isOpen: true, status: response.status, msg: response.data.message });
+        } 
       } catch (error) {
         // Handle error
+        setDialogProps({ isOpen: true, status: 400, msg: "Invalid Address" });
         console.error("Error:", error);
       }
     };
@@ -341,6 +342,7 @@ const ValidationFormMexico = () =>{
             </button>
           </div>
         </form>
+        {dialogProps.isOpen && <Dialog status={dialogProps.status} msg={dialogProps.msg} />}
       </>
     );
 }

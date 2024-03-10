@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 import React from 'react';
+import Dialog from "./dialog";
 
 const ValidationFormJapan = () =>{
     const province = ["北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県", "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県", "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県", "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県", "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県", "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"];
@@ -16,6 +17,7 @@ const ValidationFormJapan = () =>{
     const [aptNum, setAptNum] = useState();
     const [roomNum, setRoomNum] = useState();
     const [streetAddress, setStreetAddress] = useState();
+    const [dialogProps, setDialogProps] = useState({ isOpen: false, status: null, msg: "" });
   
     const handleFirstNameChange = (event) =>{
       const { value } = event.target;
@@ -103,19 +105,18 @@ const ValidationFormJapan = () =>{
         const response = await axios.post("http://localhost:5000/api/validateAddress", formData);
   
         // Handle response
-      if (response.status === 200) {
-        // Address is valid, set notification and show popup
-        // setNotification(response.data.message);
-        window.alert(response.data.message);
-      } else {
-        // Address is invalid, set error notification
-        // setNotification("Invalid address format.");
-      }
+        if (response.status === 200) {
+          // Address is valid, set notification and show popup
+          // setNotification(response.data.message);
+          // window.alert(response.data.message);
+          setDialogProps({ isOpen: true, status: response.status, msg: response.data.message });
+        } 
       } catch (error) {
         // Handle error
+        setDialogProps({ isOpen: true, status: 400, msg: "Invalid Address" });
         console.error("Error:", error);
-      // }
-    }
+      }
+    
   };
   
     return (
@@ -326,6 +327,7 @@ const ValidationFormJapan = () =>{
             </button>
           </div>
         </form>
+        {dialogProps.isOpen && <Dialog status={dialogProps.status} msg={dialogProps.msg} />}
       </>
     );
 }

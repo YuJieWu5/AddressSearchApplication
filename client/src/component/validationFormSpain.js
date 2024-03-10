@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 import React from 'react';
+import Dialog from "./dialog";
 
 const ValidationFormSpain = () =>{
     const province = ["A Coruña" , "Álava" , "Albacete" , "Alicante" , "Almería" , "Asturias" , "Ávila" , "Badajoz" , "Barcelona" , "Burgos" , "Cáceres" , "Cádiz" , "Cantabria" , "Castellón" , "Ceuta" , "Ciudad Real" , "Córdoba" , "Cuenca" , "Girona" , "Granada" , "Guadalajara" , "Guipúzcoa" , "Huelva" , "Huesca" , "Illes Balears" , "Jaén" , "La Rioja" , "Las Palmas" , "León" , "Lleida" , "Lugo" , "Madrid" , "Málaga" , "Melilla" , "Murcia" , "Navarra" , "Ourense" , "Palencia" , "Pontevedra" , "Salamanca" , "Santa Cruz de Tenerife" , "Segovia" , "Sevilla" , "Soria" , "Tarragona" , "Teruel" , "Toledo" , "Valencia" , "Valladolid" , "Vizcaya" , "Zamora" , "Zaragoza"];
@@ -17,6 +18,7 @@ const ValidationFormSpain = () =>{
     const [roomNum, setRoomNum] = useState();
     const [selectedStreetType, setStreetType] = useState(streetType[0]);
     const [streetAddress, setStreetAddress] = useState();
+    const [dialogProps, setDialogProps] = useState({ isOpen: false, status: null, msg: "" });
   
     const handleFirstNameChange = (event) =>{
       const { value } = event.target;
@@ -107,16 +109,15 @@ const ValidationFormSpain = () =>{
         const response = await axios.post("http://localhost:5000/api/validateAddress", formData);
   
         // Handle response
-      if (response.status === 200) {
-        // Address is valid, set notification and show popup
-        // setNotification(response.data.message);
-        window.alert(response.data.message);
-      } else {
-        // Address is invalid, set error notification
-        // setNotification("Invalid address format.");
-      }
+        if (response.status === 200) {
+          // Address is valid, set notification and show popup
+          // setNotification(response.data.message);
+          // window.alert(response.data.message);
+          setDialogProps({ isOpen: true, status: response.status, msg: response.data.message });
+        } 
       } catch (error) {
         // Handle error
+        setDialogProps({ isOpen: true, status: 400, msg: "Invalid Address" });
         console.error("Error:", error);
       }
     };
@@ -340,6 +341,7 @@ const ValidationFormSpain = () =>{
             </button>
           </div>
         </form>
+        {dialogProps.isOpen && <Dialog status={dialogProps.status} msg={dialogProps.msg} />}
       </>
     );
 }

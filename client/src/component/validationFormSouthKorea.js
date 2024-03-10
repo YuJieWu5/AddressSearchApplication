@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 import React from 'react';
+import Dialog from "./dialog";
 
 const ValidationFormSouthKorea = () =>{
     const province = ["서울" , "부산" , "인천" , "대구" , "광주" , "대전" , "울산" , "세종" , "경기" , "강원" , "충북" , "충남" , "전북" , "전남" , "경북" , "경남" , "제주"];
@@ -15,6 +16,7 @@ const ValidationFormSouthKorea = () =>{
     const [aptNum, setAptNum] = useState();
     const [roomNum, setRoomNum] = useState();
     const [streetAddress, setStreetAddress] = useState();
+    const [dialogProps, setDialogProps] = useState({ isOpen: false, status: null, msg: "" });
   
     const handleFirstNameChange = (event) =>{
       const { value } = event.target;
@@ -95,16 +97,15 @@ const ValidationFormSouthKorea = () =>{
         const response = await axios.post("http://localhost:5000/api/validateAddress", formData);
   
         // Handle response
-      if (response.status === 200) {
-        // Address is valid, set notification and show popup
-        // setNotification(response.data.message);
-        window.alert(response.data.message);
-      } else {
-        // Address is invalid, set error notification
-        // setNotification("Invalid address format.");
-      }
+        if (response.status === 200) {
+          // Address is valid, set notification and show popup
+          // setNotification(response.data.message);
+          // window.alert(response.data.message);
+          setDialogProps({ isOpen: true, status: response.status, msg: response.data.message });
+        } 
       } catch (error) {
         // Handle error
+        setDialogProps({ isOpen: true, status: 400, msg: "Invalid Address" });
         console.error("Error:", error);
       }
     };
@@ -309,6 +310,7 @@ const ValidationFormSouthKorea = () =>{
             </button>
           </div>
         </form>
+        {dialogProps.isOpen && <Dialog status={dialogProps.status} msg={dialogProps.msg} />}
       </>
     );
 }

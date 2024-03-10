@@ -14,8 +14,19 @@ const SearchingForm = ()=> {
         "8":"Spain", 
         "9":"UK", 
         "10":"USA"};
-
-    // var selectedCountries = [];
+    
+    const stateOrPrivince = [
+        "",
+        "AC" , "AP" , "AM" , "BA" , "CE" , "DF" , "ES" , "GO" , "MT" , "MG" , "PA" , "PB" , "PR" , "PI" , "RJ" , "RN" , "RS" , "RO" , "RR" , "SC" , "SP" , "SE" , "TO",
+        "AB" , "MB" , "NB" , "NL" , "NS" , "NT" , "NU" , "ON" , "PE" , "QC" , "SK" , "YT",
+        "AG" , "BC" , "BS" , "CM" , "CS" , "CH" , "CL" , "CP" , "DG" , "GT" , "GR" , "HG" , "JC" , "MC" , "OC" , "PL" , "QT" , "QR" , "SL" , "SR" , "TC" , "TS" , "TL" , "VZ" , "YN" , "ZS",
+        "A Coruña" , "Álava" , "Albacete" , "Alicante" , "Almería" , "Asturias" , "Ávila" , "Badajoz" , "Barcelona" , "Burgos" , "Cáceres" , "Cádiz" , "Cantabria" , "Castellón" , "Ceuta" , "Ciudad Real" , "Córdoba" , "Cuenca" , "Girona" , "Granada" , "Guadalajara" , "Guipúzcoa" , "Huelva" , "Huesca" , "Illes Balears" , "Jaén" , "La Rioja" , "Las Palmas" , "León" , "Lleida" , "Lugo" , "Madrid" , "Málaga" , "Melilla" , "Murcia" , "Navarra" , "Ourense" , "Palencia" , "Pontevedra" , "Salamanca" , "Santa Cruz de Tenerife" , "Segovia" , "Sevilla" , "Soria" , "Tarragona" , "Teruel" , "Toledo" , "Valencia" , "Valladolid" , "Vizcaya" , "Zamora" , "Zaragoza",
+        "AL" , "AK" , "AZ" , "AR" , "CA" , "CO" , "CT" , "DE" , "FL" , "GA" , "HI" , "ID" , "IL" , "IN" , "IA" , "KS" , "KY" , "LA" , "ME" , "MD" , "MA" , "MI" , "MN" , "MS" , "MO" , "NE" , "NV" , "NH" , "NJ" , "NM" , "NY" , "NC" , "ND" , "OH" , "OK" , "OR" , "RI" , "SD" , "TN" , "TX" , "UT" , "VT" , "VA" , "WA" , "WV" , "WI" , "WY",
+        "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県", "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県", "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県", "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県", "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県", "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県",
+        "평안북도", "평안남도", "자강도", "황해북도", "황해남도", "함경북도", "함경남도", "강원도", "남포시", "평양직할시", "라선특별시",
+        "서울" , "부산" , "인천" , "대구" , "광주" , "대전" , "울산" , "세종" , "경기" , "강원" , "충북" , "충남" , "전북" , "전남" , "경북" , "경남" , "제주"
+    ]
+    
     const [selectedCountries, setSelectedCountries] = useState([]);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -55,6 +66,7 @@ const SearchingForm = ()=> {
     }
 
     const handleStateChange = (event) =>{
+        console.log(event.target.value);
         setState(event.target.value);
     }
 
@@ -144,7 +156,19 @@ const SearchingForm = ()=> {
                         <div className="sm:col-span-2">
                         <label className="block text-sm font-medium leading-6 text-gray-900">State / Province</label>
                         <div className="mt-2">
-                            <input type="text" value={state} onChange={handleStateChange} name="region" id="region" autocomplete="address-level1" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                            {/* <input type="text" value={state} onChange={handleStateChange} name="region" id="region" autocomplete="address-level1" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/> */}
+                            <select
+                                id="state"
+                                name="state"
+                                autoComplete="state-name"
+                                value={state}
+                                onChange={handleStateChange}
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                            >
+                                {stateOrPrivince.map((item) => {
+                                return <option key={item} value={item}>{item}</option>;
+                                })}
+                            </select>
                         </div>
                         </div>
 

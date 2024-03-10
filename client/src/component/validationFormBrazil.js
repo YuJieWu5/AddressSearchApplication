@@ -150,12 +150,7 @@ const ValidationFormBrazil = () => {
         // setNotification(response.data.message);
         // window.alert(response.data.message);
         setDialogProps({ isOpen: true, status: response.status, msg: response.data.message });
-      } else {
-        // Address is invalid, set error notification
-        // setNotification("Invalid address format.");
-        window.alert(response.data.message);
-
-      }
+      } 
     } catch (error) {
       // Handle error
       setDialogProps({ isOpen: true, status: 400, msg: "Invalid Address" });
