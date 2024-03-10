@@ -1,14 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { searchController } = require('../controllers');
-
 const searchService = require('./searchService');
 
-// In your route handler or controller file
-
-const searchService = require('../services/searchService');
-
-app.post('/search', async (req, res) => {
+router.post('/search', async (req, res) => {
     const { selectedCountries, userInput, page } = req.body;
 
     try {
