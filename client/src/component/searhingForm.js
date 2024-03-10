@@ -1,5 +1,6 @@
 import '../App.css';
 import {useState} from 'react';
+import axios from 'axios';
 
 const SearchingForm = ()=> {
     const countryList = {
@@ -20,11 +21,12 @@ const SearchingForm = ()=> {
         "AC" , "AP" , "AM" , "BA" , "CE" , "DF" , "ES" , "GO" , "MT" , "MG" , "PA" , "PB" , "PR" , "PI" , "RJ" , "RN" , "RS" , "RO" , "RR" , "SC" , "SP" , "SE" , "TO",
         "AB" , "MB" , "NB" , "NL" , "NS" , "NT" , "NU" , "ON" , "PE" , "QC" , "SK" , "YT",
         "AG" , "BC" , "BS" , "CM" , "CS" , "CH" , "CL" , "CP" , "DG" , "GT" , "GR" , "HG" , "JC" , "MC" , "OC" , "PL" , "QT" , "QR" , "SL" , "SR" , "TC" , "TS" , "TL" , "VZ" , "YN" , "ZS",
-        "A Coruña" , "Álava" , "Albacete" , "Alicante" , "Almería" , "Asturias" , "Ávila" , "Badajoz" , "Barcelona" , "Burgos" , "Cáceres" , "Cádiz" , "Cantabria" , "Castellón" , "Ceuta" , "Ciudad Real" , "Córdoba" , "Cuenca" , "Girona" , "Granada" , "Guadalajara" , "Guipúzcoa" , "Huelva" , "Huesca" , "Illes Balears" , "Jaén" , "La Rioja" , "Las Palmas" , "León" , "Lleida" , "Lugo" , "Madrid" , "Málaga" , "Melilla" , "Murcia" , "Navarra" , "Ourense" , "Palencia" , "Pontevedra" , "Salamanca" , "Santa Cruz de Tenerife" , "Segovia" , "Sevilla" , "Soria" , "Tarragona" , "Teruel" , "Toledo" , "Valencia" , "Valladolid" , "Vizcaya" , "Zamora" , "Zaragoza",
+        "A Coruña" , "Álava" , "Albacete" , "Alicante" , "Almería" , "Asturias" , "Ávila" , "Badajoz" , "Barcelona" , "Burgos" , "Cáceres" , "Cádiz" , "Cantabria" , "Castellón" , "Ceuta" , "Ciudad Real" , "Córdoba" , "Cuenca" , "Girona" , "Granada" , "Guadalajara" , "Guipúzcoa" , "Huelva" , "Huesca" , "Illes Balears" , "Jaén" , "La Rioja" , 
+        "Las Palmas" , "León" , "Lleida" , "Lugo" , "Madrid" , "Málaga" , "Melilla" , "Murcia" , "Navarra" , "Ourense" , "Palencia" , "Pontevedra" , "Salamanca" , "Santa Cruz de Tenerife" , "Segovia" , "Sevilla" , "Soria" , "Tarragona" , "Teruel" , "Toledo" , "Valencia" , "Valladolid" , "Vizcaya" , "Zamora" , "Zaragoza",
         "AL" , "AK" , "AZ" , "AR" , "CA" , "CO" , "CT" , "DE" , "FL" , "GA" , "HI" , "ID" , "IL" , "IN" , "IA" , "KS" , "KY" , "LA" , "ME" , "MD" , "MA" , "MI" , "MN" , "MS" , "MO" , "NE" , "NV" , "NH" , "NJ" , "NM" , "NY" , "NC" , "ND" , "OH" , "OK" , "OR" , "RI" , "SD" , "TN" , "TX" , "UT" , "VT" , "VA" , "WA" , "WV" , "WI" , "WY",
-        "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県", "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県", "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県", "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県", "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県", "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県",
-        "평안북도", "평안남도", "자강도", "황해북도", "황해남도", "함경북도", "함경남도", "강원도", "남포시", "평양직할시", "라선특별시",
-        "서울" , "부산" , "인천" , "대구" , "광주" , "대전" , "울산" , "세종" , "경기" , "강원" , "충북" , "충남" , "전북" , "전남" , "경북" , "경남" , "제주"
+        "Hokkaido" , "Aomori" , "Iwate" , "Miyagi" , "Akita" , "Yamagata" , "Fukushima" , "Ibaraki" , "Tochigi" , "Gunma" , "Saitama" , "Chiba" , "Tokyo" , "Kanagawa" , "Niigata" , "Toyama" , "Ishikawa" , "Fukui" , "Yamanashi" , "Nagano" , "Gifu" , "Shizuoka" , "Aichi" , "Mie" , "Shiga" , "Kyoto" , "Osaka" , "Hyogo" , "Nara" , "Wakayama" , 
+        "Tottori" , "Shimane" , "Okayama" , "Hiroshima" , "Yamaguchi" , "Tokushima" , "Kagawa" , "Ehime" , "Kochi" , "Fukuoka" , "Saga" , "Nagasaki" , "Kumamoto" , "Oita" , "Miyazaki" , "Kagoshima" , "Okinawa" ,"Pyongan-bukto" , "Pyongan-namdo" , "Jagang-do" , "Hwanghae-bukto" , "Hwanghae-namdo" , "Hamgyong-bukto" , "Hamgyong-namdo" , "Kangwon-do" , 
+        "Nampo-si" , "Pyongyang-jikhalsi" , "Rason-teukbyeolsi" ,"Seoul" , "Busan" , "Incheon" , "Daegu" , "Gwangju" , "Daejeon" , "Ulsan" , "Sejong" , "Gyeonggi" , "Gangwon" , "Chungbuk" , "Chungnam" , "Jeonbuk" , "Jeonnam" , "Gyeongbuk" , "Gyeongnam" , "Jeju" 
     ]
     
     const [selectedCountries, setSelectedCountries] = useState([]);
@@ -34,6 +36,7 @@ const SearchingForm = ()=> {
     const [state, setState] = useState('');
     const [zip, setZip] = useState('');
     const [street, setStreet] = useState('');
+    const [result, setResult] = useState(null);
 
     const handleChecked = (event) =>{
         const isChecked = event.target.checked;
@@ -78,10 +81,10 @@ const SearchingForm = ()=> {
         setZip(event.target.value);
     }
 
-    const handleSubmit = () =>{
+    const handleSubmit = async () =>{
         console.log("Submit!")
         console.log(selectedCountries);
-        const form = {
+        const formData = {
             "SelectedCountries": selectedCountries,
             "UserInput":{
                 "FirstName": firstName,
@@ -93,7 +96,26 @@ const SearchingForm = ()=> {
             }
         }
 
-        console.log(form);
+        try {
+            // Make a POST request to your server API endpoint
+            const response = await axios.post("http://localhost:5000/api/searchAddresses", formData);
+      
+            // Handle response
+            if (response.status === 200) {
+              // Address is valid, set notification and show popup
+              // setNotification(response.data.message);
+              // window.alert(response.data.message);
+            //   setDialogProps({ isOpen: true, status: response.status, msg: response.data.message });
+            setResult(response.data);
+            console.log(response.data);
+            } 
+          } catch (error) {
+            // Handle error
+            // setDialogProps({ isOpen: true, status: 400, msg: "Invalid Address" });
+            const errorText = {name: "Error Occurred", address: ""};
+            setResult(errorText);
+            console.error("Error:", error);
+          }
     }
 
     return (
@@ -119,7 +141,7 @@ const SearchingForm = ()=> {
                                 return <>
                                     <div className="relative row col-md-2">
                                         <div className="flex h-6 items-center mr-1">
-                                            <input id={countryList[key]} value={key} onChange={handleChecked} type="checkbox" className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"/>
+                                            <input id={countryList[key]} value={countryList[key]} onChange={handleChecked} type="checkbox" className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"/>
                                         </div>
                                         <div className="text-sm leading-6">
                                             <label className="font-medium text-gray-900">{countryList[key]}</label>
@@ -196,6 +218,23 @@ const SearchingForm = ()=> {
             <button  type="button" onClick={handleSubmit} className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Search</button>
         </div>
         </form>
+        {result!=null && 
+            <ul role="list" class="ml-3 mr-3 divide-y divide-gray-100">
+                { result.map((item, index) => {
+                    return <li class="flex justify-between gap-x-6 py-5">
+                                <div class="flex min-w-0 gap-x-4">
+                                <div class="min-w-0 flex-auto">
+                                    <p class="text-sm font-semibold leading-6 text-gray-900">{item.name}</p>
+                                    <p class="mt-1 truncate text-xs leading-5 text-gray-500">{item.address}</p>
+                                </div>
+                                </div>
+                            </li>
+                })}
+                
+            </ul>
+        }
+        
+
         </>
 
     );
