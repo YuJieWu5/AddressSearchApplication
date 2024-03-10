@@ -64,13 +64,20 @@ async function searchingAddress(form) {
         const documents = await collection.find(query).toArray();
 
         //format the document, build the address string
-        const formattedDocuments = documents.map(doc => ({
-            name: `${doc.name.first_name} ${doc.name.last_name}`,
-            address: `${doc.street_address.house_number} ${doc.street_address.street_name} ${doc.street_address.apt_number ? doc.street_address.apt_number + ' ' : ''}${doc.zone_info.neighborhood} ${doc.zone_info.city} ${doc.zone_info.state_province} ${doc.zone_info.postal_code} ${doc.country}`
-        }));
-
-        console.log(formattedDocuments);
-        return formattedDocuments;
+        if(documents.length>0){
+            const formattedDocuments = documents.map(doc => ({
+                name: `${doc.name.first_name} ${doc.name.last_name}`,
+                address: `${doc.street_address.house_number} ${doc.street_address.street_name} ${doc.street_address.apt_number ? doc.street_address.apt_number + ' ' : ''}${doc.zone_info.neighborhood} ${doc.zone_info.city} ${doc.zone_info.state_province} ${doc.zone_info.postal_code} ${doc.country}`
+            }));
+    
+            console.log(formattedDocuments);
+            return formattedDocuments;
+        }else{
+            const formattedDocuments = [{name: "No matching address", address: ""}];
+            console.log(formattedDocuments);
+            return formattedDocuments;
+        }
+        
     } catch (error) {
         console.error("Error connecting to the database: ", error);
         throw error; 

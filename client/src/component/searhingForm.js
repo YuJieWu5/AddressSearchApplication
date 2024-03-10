@@ -98,21 +98,17 @@ const SearchingForm = ()=> {
 
         try {
             // Make a POST request to your server API endpoint
-            const response = await axios.post("http://localhost:5000/api/searchAddresses", formData);
+            const response = await axios.post("http://localhost:5001/api/searchAddresses", formData);
       
             // Handle response
             if (response.status === 200) {
-              // Address is valid, set notification and show popup
-              // setNotification(response.data.message);
-              // window.alert(response.data.message);
-            //   setDialogProps({ isOpen: true, status: response.status, msg: response.data.message });
-            setResult(response.data);
-            console.log(response.data);
+            
+                setResult(response.data); 
+
+                console.log(response.data);
             } 
           } catch (error) {
-            // Handle error
-            // setDialogProps({ isOpen: true, status: 400, msg: "Invalid Address" });
-            const errorText = {name: "Error Occurred", address: ""};
+            const errorText = [{name: "Error Occurred", address: ""}];
             setResult(errorText);
             console.error("Error:", error);
           }
