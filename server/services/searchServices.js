@@ -1,9 +1,11 @@
+const AddressManager = require('../AddressManager');
 const DefaultSearchModel = require('../models/DefaultSearchModel');
+
 
 const pageSize = 25;
 
 
-exports.performSearch = async (selectedCountries, userInput) => {
+exports.performSearch = async (selectedCountries, userInput, page = 1) => {
     try {
         let searchResults;
 
