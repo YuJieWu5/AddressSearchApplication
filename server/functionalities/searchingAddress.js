@@ -14,51 +14,39 @@ async function searchingAddress(form) {
         const db = client.db(DB_NAME);
         const collection = db.collection(COLLECTION_NAME);
 
-        // Constructing the query with AND for the country and OR for other conditions
-        let query = { $and: [] };
+        // Constructing the query for AND relationship
+        let query = {};
 
         if (form.SelectedCountries.length > 0) {
-            query.$and.push({ country: { $in: form.SelectedCountries } });
+            query.country = { $in: form.SelectedCountries };
         }
 
-        let orConditions = [];
-
         if (form.UserInput.FirstName) {
-            orConditions.push({ "name.first_name": { $regex: new RegExp(form.UserInput.FirstName, 'i') } });
+            query["name.first_name"] = { $regex: new RegExp(form.UserInput.FirstName, 'i') };
         }
 
         if (form.UserInput.LastName) {
-            orConditions.push({ "name.last_name": { $regex: new RegExp(form.UserInput.LastName, 'i') } });
+            query["name.last_name"] = { $regex: new RegExp(form.UserInput.LastName, 'i') };
         }
 
         if (form.UserInput.City) {
-            orConditions.push({ "zone_info.city": { $regex: new RegExp(form.UserInput.City, 'i') } });
+            query["zone_info.city"] = { $regex: new RegExp(form.UserInput.City, 'i') };
         }
 
         if (form.UserInput.ZipCode) {
-            orConditions.push({ "zone_info.postal_code": { $regex: new RegExp(form.UserInput.ZipCode, 'i') } });
+            query["zone_info.postal_code"] = { $regex: new RegExp(form.UserInput.ZipCode, 'i') };
         }
 
         if (form.UserInput.State) {
-            orConditions.push({ "zone_info.state_province": { $regex: new RegExp(form.UserInput.State, 'i') } });
+            query["zone_info.state_province"] = { $regex: new RegExp(form.UserInput.State, 'i') };
         }
 
         if (form.UserInput.Street) {
-            orConditions.push(
+            query.$and = [
                 { "street_address.house_number": { $regex: new RegExp(form.UserInput.Street, 'i') } },
                 { "street_address.street_name": { $regex: new RegExp(form.UserInput.Street, 'i') } },
                 { "street_address.apt_number": { $regex: new RegExp(form.UserInput.Street, 'i') } }
-            );
-        }
-
-        if (orConditions.length > 0) {
-            query.$and.push({ $or: orConditions });
-        }
-
-        // If no other conditions were added, just search by country
-        if (query.$and.length === 0) {
-            delete query.$and;
-            query.country = { $in: form.SelectedCountries };
+            ];
         }
 
         const documents = await collection.find(query).toArray();
