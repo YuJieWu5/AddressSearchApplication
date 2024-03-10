@@ -1,5 +1,3 @@
-const axios = require("axios");
-
 const bodyParser = require("body-parser");
 
 const express = require("express");
@@ -37,6 +35,8 @@ const {
   UKSchema,
   USSchema,
 } = require("./functionalities/addressValidation.js");
+
+const { searchingAddress } = require('./functionalities/searchingAddress.js');
 
 const ajv = new Ajv();
 
@@ -104,6 +104,17 @@ app.post("/api/validateAddress", (req, res) => {
     console.log("Data is not valid");
     console.log(validate.errors);
     res.status(400).send({ message: "Invalid address format." });
+  }
+});
+
+app.post('/api/searchAddresses', async (req, res) => {
+  try{
+    const form = req.body;
+    const results = await searchingAddress(form);
+    res.json(results);
+  }catch (error){
+    console.error("Error connecting to the database: ", error);
+    res.status(500).send("Error processing your request");
   }
 });
 
