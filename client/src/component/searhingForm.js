@@ -52,16 +52,12 @@ const SearchingForm = ()=> {
 
     const handleFirstNameChange = (event) =>{
         const { value } = event.target;
-        if (/^[A-Za-z]*$/.test(value)) {
-            setFirstName(value);
-        }
+        setFirstName(value);
       }
     
     const handleLastNameChange = (event) =>{
         const { value } = event.target;
-        if (/^[A-Za-z]*$/.test(value)) {
-            setLastName(value);
-        }
+        setLastName(value);
     }
 
     const handleCityChange = (event) =>{
