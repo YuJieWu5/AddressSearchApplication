@@ -11,7 +11,7 @@ const Ajv = require("ajv");
 require("dotenv").config();
 
 require("dotenv").config({ path: "./config.env" });
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 
