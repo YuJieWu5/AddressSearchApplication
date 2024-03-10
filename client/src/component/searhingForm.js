@@ -125,7 +125,7 @@ const SearchingForm = ()=> {
 
             <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold leading-7 text-gray-900">Searching Form</h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600">This form allows you to search across multiple countries; we will return up to 25 pages of relevant addresses.</p>
+            <p className="mt-1 text-sm leading-6 text-gray-600">This form allows you to search across multiple countries; we support partical search.</p>
             
             <label className="block text-sm font-medium leading-6 text-gray-900 mt-5">Country</label>
             {/* <h2 className="text-base font-semibold leading-7 text-gray-900">Country</h2> */}
