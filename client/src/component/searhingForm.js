@@ -94,7 +94,7 @@ const SearchingForm = ()=> {
 
         try {
             // Make a POST request to your server API endpoint
-            const response = await axios.post("http://localhost:5000/api/searchAddresses", formData);
+            const response = await axios.post("https://team6-server.vercel.app/api/searchAddresses", formData);
       
             // Handle response
             if (response.status === 200) {

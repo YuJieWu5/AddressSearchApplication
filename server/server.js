@@ -13,9 +13,6 @@ const swaggerSpec = require('./swagger');
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
-app.get('/', (req, res) => {
-  res.send('Hello World')
-})
 
 require("dotenv").config();
 
