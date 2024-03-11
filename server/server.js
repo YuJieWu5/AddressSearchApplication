@@ -8,6 +8,11 @@ const cors = require("cors");
 
 const Ajv = require("ajv");
 
+const swaggerUI = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+
 require("dotenv").config();
 
 require("dotenv").config({ path: "./config.env" });
