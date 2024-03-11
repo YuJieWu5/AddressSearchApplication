@@ -8,13 +8,13 @@
   }
  ],
  "routes": [
+  {
+      "src": "/api-docs",
+      "dest": "swagger.js"
+    },
     {
-        "src": "/api-docs",
-        "dest": "/api/swagger.js"
-      },
-      {
         "src": "/(.*)",
-        "dest": "/api/server.js"
-      }
+        "dest": "server.js"
+    }
  ]
 }
