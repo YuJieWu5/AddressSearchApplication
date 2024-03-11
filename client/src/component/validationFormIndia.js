@@ -88,7 +88,7 @@ const ValidationFormIndia = () =>{
   
       try {
         // Make a POST request to your server API endpoint
-        const response = await axios.post("http://localhost:5000/api/validateAddress", formData);
+        const response = await axios.post("https://team6-server.vercel.app/api/validateAddress", formData);
   
         // Handle response
       if (response.status === 200) {
